@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Anomaly_detection_android</string>
+    <string name="api_button">Click me!</string>
+    <string name="catalog_fail">Failed to load transactions</string>
 </resources>
