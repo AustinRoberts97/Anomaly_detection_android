@@ -3,6 +3,35 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/CardNameView"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="PLATINUM VISA"
+        android:textColor="@color/msufcugreen"
+        android:textAlignment="center"
+        android:textSize="26sp"
+        android:gravity="center"
+        android:drawableLeft="@drawable/figureicon"/>
+
+    <TextView
+        android:id="@+id/BalanceView"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:text="$271.83"
+        android:background="@color/msufcugreen"
+        android:textColor="@color/lightgreen"
+        android:textAlignment="center"
+        android:textSize="36sp"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:text="TRANSACTION HISTORY as of 9:15 pm on 10/1/18"
+        android:gravity="center_vertical"/>
+
     <ListView
         android:id="@+id/listTransactions"
         android:layout_width="match_parent"
