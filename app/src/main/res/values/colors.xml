@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#004F39</color>
+    <color name="colorPrimaryDark">#004F39</color>
     <color name="colorAccent">#FF4081</color>
     <color name="msufcugreen">#004F39</color>
     <color name="lightgreen">#8DC63F</color>
+    <color name="lightgrey">#CCCCCC</color>
+    <color name="urgent">#BB4F4E</color>
+    <color name="raised">#B5985A</color>
 </resources>

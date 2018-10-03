@@ -21,11 +21,12 @@ public class TransactionsView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.transactions_layout);
 
-        ListView list = (ListView) findViewById(R.id.listTransactions);
+        /*ListView list = (ListView) findViewById(R.id.listTransactions);
 
         final Cloud.CatalogAdapter adapter = new Cloud.CatalogAdapter(list);
 
         list.setAdapter(adapter);
+        */
 
 
     }
