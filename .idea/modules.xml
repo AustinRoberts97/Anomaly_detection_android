@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/anomaly_detection_android.iml" filepath="$PROJECT_DIR$/anomaly_detection_android.iml" />
+=======
+      <module fileurl="file://$PROJECT_DIR$/Anomaly_detection_android.iml" filepath="$PROJECT_DIR$/Anomaly_detection_android.iml" />
+>>>>>>> a3aafe6bf98f54023a6e4e95612295d0da055032
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
