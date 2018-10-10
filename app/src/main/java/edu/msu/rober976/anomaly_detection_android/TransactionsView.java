@@ -8,7 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -21,13 +22,16 @@ public class TransactionsView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.transactions_layout);
 
-        /*ListView list = (ListView) findViewById(R.id.listTransactions);
+        ListView list = (ListView) findViewById(R.id.listTransactions);
 
         final Cloud.CatalogAdapter adapter = new Cloud.CatalogAdapter(list);
 
         list.setAdapter(adapter);
-        */
 
+        LocalDate date = LocalDate.now();
+        LocalTime time = LocalTime.now();
+        TextView TimeBox = (TextView) findViewById(R.id.TimeBox);
+        TimeBox.setText("TRANSACTION HISTORY as of " +time.toString()+ " on "+date.toString());
 
     }
 }

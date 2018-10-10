@@ -35,7 +35,8 @@ public class Cloud {
 
     private static final String BASE_URL = "http://django-env.zqqwi3vey2.us-east-1.elasticbeanstalk.com";
     private static final String API_URL = "/api";
-    private static final String TRANSACTION_URL = "/transactions";
+    private static final String TRANSACTION_URL = "/transactions/?account=";
+    private static final String ACCOUNT_NUMBER="1";
 
     private static class Item {
         public String amount = "";
@@ -93,7 +94,7 @@ public class Cloud {
 
     public ArrayList<Item> get_transactions() {
         // create a get query
-        String query = BASE_URL + API_URL + TRANSACTION_URL;
+        String query = BASE_URL + API_URL + TRANSACTION_URL+ ACCOUNT_NUMBER;
         String data = "";
         String dataParsed = "";
         String singleParsed = "";

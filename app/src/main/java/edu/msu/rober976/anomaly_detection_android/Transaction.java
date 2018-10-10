@@ -62,4 +62,16 @@ public class Transaction {
             e.printStackTrace();
         }
     }
+
+    public String getOur_transmission_date() {
+        return our_transmission_date;
+    }
+
+    public String getLocal_tran_time() {
+        return local_tran_time;
+    }
+
+    public String getPost_amount() {
+        return post_amount;
+    }
 }
