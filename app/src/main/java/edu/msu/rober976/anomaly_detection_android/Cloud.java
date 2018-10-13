@@ -1,6 +1,7 @@
 package edu.msu.rober976.anomaly_detection_android;
 
 import android.app.Notification;
+import android.content.Intent;
 import android.os.Message;
 import android.util.JsonReader;
 import android.util.Log;
@@ -36,12 +37,13 @@ public class Cloud {
     private static final String BASE_URL = "http://django-env.zqqwi3vey2.us-east-1.elasticbeanstalk.com";
     private static final String API_URL = "/api";
     private static final String TRANSACTION_URL = "/transactions/?account=";
-    private static final String ACCOUNT_NUMBER="1";
+    private static final String ACCOUNT_NUMBER="1597899532";
 
     private static class Item {
         public String amount = "";
         public String acceptor = "";
         public String state = "";
+        public Boolean success = Boolean.TRUE;
     }
     /**
      * An adapter so that list boxes can display a list of filenames from
@@ -128,7 +130,8 @@ public class Cloud {
                     item.acceptor = transJson.getString("card_acceptor_name");
                     item.amount = transJson.getString("post_amount");
                     item.state = transJson.getString("card_acceptor_state");
-                    if(item != null) {
+                    item.success = transJson.getBoolean("post_success");
+                    if(item != null && item.success && !transactions.contains(item)) {
                         transactions.add(item);
                     }
 
@@ -170,13 +173,20 @@ public class Cloud {
             }
 
             TextView tv = (TextView)view.findViewById(R.id.amount);
+//            tv.setOnClickListener(new View.OnClickListener(){
+//                public void onClick(View v){
+//                    Intent intent = new Intent(this, MainActivity);
+//                    startActivity(intent);
+//                }
+//            });
             tv.setText(items.get(i).amount);
             Log.e(TAG, items.get(i).amount );
             TextView tv2 = (TextView)view.findViewById(R.id.acceptor);
             tv2.setText(items.get(i).acceptor);
             Log.e(TAG, items.get(i).acceptor);
             TextView tv3 = (TextView)view.findViewById(R.id.state);
-            tv3.setText(items.get(i).state);
+//            tv3.setText(items.get(i).state);
+            tv3.setText("");
             Log.e(TAG, items.get(i).state);
 
 

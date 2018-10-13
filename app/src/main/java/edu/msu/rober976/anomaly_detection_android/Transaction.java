@@ -74,4 +74,8 @@ public class Transaction {
     public String getPost_amount() {
         return post_amount;
     }
+
+    public boolean isPost_success() {
+        return post_success;
+    }
 }
