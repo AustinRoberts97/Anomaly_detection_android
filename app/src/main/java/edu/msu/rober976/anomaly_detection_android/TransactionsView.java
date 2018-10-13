@@ -27,7 +27,6 @@ public class TransactionsView extends AppCompatActivity {
         final Cloud.CatalogAdapter adapter = new Cloud.CatalogAdapter(list);
 
         list.setAdapter(adapter);
-
         LocalDate date = LocalDate.now();
         LocalTime time = LocalTime.now();
         TextView TimeBox = (TextView) findViewById(R.id.TimeBox);

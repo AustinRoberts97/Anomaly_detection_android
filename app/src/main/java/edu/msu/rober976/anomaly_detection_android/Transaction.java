@@ -37,7 +37,7 @@ public class Transaction {
     private String card_acceptor_name;
     private String card_acceptor_state;
     private String card_acceptor_street;
-    private boolean fraud_flag;
+    private Integer fraud_flag;
 
     public Transaction(JSONObject json) {
         try {
@@ -57,6 +57,7 @@ public class Transaction {
             card_acceptor_name = (String)json.get("card_acceptor_name");
             card_acceptor_state = (String)json.get("card_acceptor_state");
             card_acceptor_street = (String)json.get("card_acceptor_street");
+            fraud_flag = (Integer)json.get("fraud_flag");
 
         } catch (JSONException e) {
             e.printStackTrace();

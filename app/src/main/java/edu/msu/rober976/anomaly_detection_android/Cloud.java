@@ -27,6 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
+import static edu.msu.rober976.anomaly_detection_android.R.color.colorPrimaryDark;
+import static edu.msu.rober976.anomaly_detection_android.R.color.urgent;
 
 /**
  * Created by rober on 9/27/2018.
@@ -37,13 +39,14 @@ public class Cloud {
     private static final String BASE_URL = "http://django-env.zqqwi3vey2.us-east-1.elasticbeanstalk.com";
     private static final String API_URL = "/api";
     private static final String TRANSACTION_URL = "/transactions/?account=";
-    private static final String ACCOUNT_NUMBER="1597899532";
+    private static final String ACCOUNT_NUMBER="3243617280";
 
     private static class Item {
         public String amount = "";
         public String acceptor = "";
         public String state = "";
         public Boolean success = Boolean.TRUE;
+        public Integer fraud_flag = 0;
     }
     /**
      * An adapter so that list boxes can display a list of filenames from
@@ -131,6 +134,7 @@ public class Cloud {
                     item.amount = transJson.getString("post_amount");
                     item.state = transJson.getString("card_acceptor_state");
                     item.success = transJson.getBoolean("post_success");
+                    item.fraud_flag = transJson.getInt("fraud_flag");
                     if(item != null && item.success && !transactions.contains(item)) {
                         transactions.add(item);
                     }
@@ -172,22 +176,32 @@ public class Cloud {
                 view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.catalog_item, viewGroup, false);
             }
 
-            TextView tv = (TextView)view.findViewById(R.id.amount);
+            TextView tv = (TextView)view.findViewById(R.id.acceptor);
 //            tv.setOnClickListener(new View.OnClickListener(){
 //                public void onClick(View v){
 //                    Intent intent = new Intent(this, MainActivity);
 //                    startActivity(intent);
 //                }
 //            });
-            tv.setText(items.get(i).amount);
-            Log.e(TAG, items.get(i).amount );
-            TextView tv2 = (TextView)view.findViewById(R.id.acceptor);
-            tv2.setText(items.get(i).acceptor);
-            Log.e(TAG, items.get(i).acceptor);
+            tv.setText(items.get(i).acceptor);
+            tv.setHeight(250);
+            Log.e(TAG, items.get(i).acceptor );
+            TextView tv2 = (TextView)view.findViewById(R.id.amount);
+            tv2.setText(items.get(i).amount);
+            tv2.setHeight(250);
+            Log.e(TAG, items.get(i).amount);
             TextView tv3 = (TextView)view.findViewById(R.id.state);
 //            tv3.setText(items.get(i).state);
             tv3.setText("");
+            tv3.setHeight(250);
             Log.e(TAG, items.get(i).state);
+
+            if (items.get(i).fraud_flag == 1){
+                tv.setBackgroundColor(R.color.urgent);
+            }
+            else{
+                tv.setBackgroundColor(000000);
+            }
 
 
             return view;
