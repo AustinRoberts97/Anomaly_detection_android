@@ -3,28 +3,32 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/amount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Dummy"
-        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/acceptor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_toRightOf="@+id/amount"
-        android:text="TextView"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:text="Acceptor"
         android:textSize="24sp" />
 
     <TextView
-        android:id="@+id/state"
+        android:id="@+id/fraud_flag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_toRightOf="@+id/acceptor"
-        android:text="TextView"
+        android:layout_toLeftOf="@id/amount"
+        android:layout_marginLeft="10dp"
+        android:text="fraud_flag"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="10dp"
+        android:text="Dummy"
         android:textSize="24sp" />
 </RelativeLayout>

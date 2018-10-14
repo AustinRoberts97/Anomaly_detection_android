@@ -1,7 +1,10 @@
 package edu.msu.rober976.anomaly_detection_android;
 
 import android.app.Notification;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Message;
 import android.util.JsonReader;
 import android.util.Log;
@@ -9,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,6 +57,8 @@ public class Cloud {
      * the cloud server.
      */
     public static class CatalogAdapter extends BaseAdapter {
+
+
         /**
          * Constructor
          */
@@ -171,18 +177,12 @@ public class Cloud {
         }
 
         @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
+        public View getView(final int i, View view, ViewGroup viewGroup) {
             if(view == null) {
                 view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.catalog_item, viewGroup, false);
             }
 
             TextView tv = (TextView)view.findViewById(R.id.acceptor);
-//            tv.setOnClickListener(new View.OnClickListener(){
-//                public void onClick(View v){
-//                    Intent intent = new Intent(this, MainActivity);
-//                    startActivity(intent);
-//                }
-//            });
             tv.setText(items.get(i).acceptor);
             tv.setHeight(250);
             Log.e(TAG, items.get(i).acceptor );
@@ -190,20 +190,34 @@ public class Cloud {
             tv2.setText(items.get(i).amount);
             tv2.setHeight(250);
             Log.e(TAG, items.get(i).amount);
-            TextView tv3 = (TextView)view.findViewById(R.id.state);
-//            tv3.setText(items.get(i).state);
+            TextView tv3 = (TextView)view.findViewById(R.id.fraud_flag);
             tv3.setText("");
             tv3.setHeight(250);
-            Log.e(TAG, items.get(i).state);
-
+            RelativeLayout RL = (RelativeLayout) tv.getParent();
+            RL.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                    String acc = items.get(i).acceptor;
+                    Intent intent = new Intent(v.getContext(), Individual_Trans.class);
+                    intent.putExtra("Acceptor", acc);
+                    v.getContext().startActivity(intent);
+                }
+            });
             if (items.get(i).fraud_flag == 1){
-                tv.setBackgroundColor(R.color.urgent);
+                tv3.setText("!");
+                RL.setBackgroundColor(Color.parseColor("#BB4F4E"));
             }
             else{
-                tv.setBackgroundColor(000000);
+                RL.setBackgroundColor(000000);
             }
 
-
+            Log.e(TAG, items.get(i).fraud_flag.toString());
             return view;
         }
-    }}
+
+
+    }
+
+
+}
+

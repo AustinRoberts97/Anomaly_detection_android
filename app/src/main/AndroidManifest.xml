@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".individual"
+            android:name=".Individual_Trans"
             android:label="@string/title_activity_individual"
             android:theme="@style/AppTheme"></activity>
     </application>
