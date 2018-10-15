@@ -184,15 +184,12 @@ public class Cloud {
 
             TextView tv = (TextView)view.findViewById(R.id.acceptor);
             tv.setText(items.get(i).acceptor);
-            tv.setHeight(250);
             Log.e(TAG, items.get(i).acceptor );
             TextView tv2 = (TextView)view.findViewById(R.id.amount);
             tv2.setText(items.get(i).amount);
-            tv2.setHeight(250);
             Log.e(TAG, items.get(i).amount);
             TextView tv3 = (TextView)view.findViewById(R.id.fraud_flag);
             tv3.setText("");
-            tv3.setHeight(250);
             RelativeLayout RL = (RelativeLayout) tv.getParent();
             RL.setOnClickListener(new View.OnClickListener(){
                 @Override

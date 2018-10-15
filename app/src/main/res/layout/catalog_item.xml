@@ -11,8 +11,9 @@
         android:layout_alignParentStart="true"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
+        android:height="40dp"
         android:text="Acceptor"
-        android:textSize="24sp" />
+        android:textSize="16dp" />
 
     <TextView
         android:id="@+id/fraud_flag"
@@ -20,8 +21,9 @@
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@id/amount"
         android:layout_marginRight="10dp"
+        android:height="40dp"
         android:text="fraud_flag"
-        android:textSize="24sp" />
+        android:textSize="16dp" />
 
     <TextView
         android:id="@+id/amount"
@@ -29,6 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="10dp"
+        android:height="40dp"
         android:text="Dummy"
-        android:textSize="24sp" />
+        android:textSize="16dp" />
 </RelativeLayout>
