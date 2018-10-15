@@ -9,7 +9,7 @@
         android:id="@+id/CardNameView"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="         PLATINUM VISA"
+        android:text="           PLATINUM VISA"
         android:textColor="@color/msufcugreen"
         android:textSize="26sp"
         android:gravity="center_vertical"
