@@ -2,6 +2,13 @@ package edu.msu.rober976.anomaly_detection_android;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xml.sax.InputSource;
+import org.xml.sax.XMLReader;
+
+import java.net.URL;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
 /**
  * Created by rober on 9/27/2018.
@@ -79,4 +86,6 @@ public class Transaction {
     public boolean isPost_success() {
         return post_success;
     }
+
+
 }
