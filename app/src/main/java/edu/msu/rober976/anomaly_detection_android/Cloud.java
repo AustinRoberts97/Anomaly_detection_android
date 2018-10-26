@@ -20,7 +20,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -44,6 +46,7 @@ public class Cloud {
     private static final String API_URL = "/api";
     private static final String TRANSACTION_URL = "/transactions/?account=";
     private static final String ACCOUNT_NUMBER="3243617280";
+    private static final String TOKEN_URL="/token";
 
     private static class Item {
         public String amount = "";
@@ -213,6 +216,64 @@ public class Cloud {
         }
 
 
+    }
+    public JSONObject createAuthToken (String username, String password){
+
+        String query = BASE_URL + API_URL + TOKEN_URL;
+        JSONObject args = new JSONObject();
+        JSONObject tokens = new JSONObject();
+        try {
+            args.put("username", username);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try {
+            args.put("password", password);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            URL url = new URL(query);
+
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Accept-Charset", "UTF-8");
+            conn.setDoOutput(true);
+            System.out.println(query);
+
+            String argsString = args.toString();
+            DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
+            wr.writeBytes(argsString);
+            wr.flush();
+            wr.close();
+            try {
+                InputStream in = new BufferedInputStream(conn.getInputStream());
+                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                StringBuilder result = new StringBuilder();
+                String line;
+
+
+                while ((line = reader.readLine()) != null) {
+                    result.append(line);
+                }
+
+                Log.d("test", "result from server: " + result.toString());
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (conn != null) {
+                    conn.disconnect();
+                }
+            }
+
+        } catch (MalformedURLException e) {
+            Log.e(e.getMessage(), "error");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return tokens;
     }
 
 
