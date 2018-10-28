@@ -8,7 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
-import android.app.DialogFragment;
+
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
@@ -211,14 +211,67 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 //            showProgress(true);
 //            mAuthTask = new UserLoginTask(username, password);
 //            mAuthTask.execute((Void) null);
-            LoginDlg Dlg = new LoginDlg();
-            Dlg.setUsername(username);
-            Dlg.setPassword(password);
+            String tokens = createAuthToken(username,password);
 
         }
     }
 
+    public static String createAuthToken(String username, String password) {
 
+        String query = BASE_URL + API_URL;
+        JSONObject args = new JSONObject();
+
+        try {
+            args.put("username", username);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try {
+            args.put("password", password);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            URL url = new URL(query);
+
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Accept-Charset", "UTF-8");
+            conn.setDoOutput(true);
+            System.out.println(query);
+
+            String argsString = args.toString();
+            DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
+            wr.writeBytes(argsString);
+            wr.flush();
+            wr.close();
+            try {
+                InputStream in = new BufferedInputStream(conn.getInputStream());
+                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                StringBuilder result = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    result.append(line);
+                }
+
+                Log.d("test", "result from server: " + result.toString());
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (conn != null) {
+                    conn.disconnect();
+                }
+            }
+
+        } catch (MalformedURLException e) {
+            Log.e(e.getMessage(), "error");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
 
     private boolean isUsernameValid(String username) {
         //TODO: Replace this with your own logic
@@ -376,7 +429,5 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
         }
     }
-
-
 }
 
