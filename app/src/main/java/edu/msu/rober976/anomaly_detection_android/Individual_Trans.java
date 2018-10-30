@@ -22,12 +22,10 @@ public class Individual_Trans extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Intent intent = getIntent();
-        String acc = intent.getStringExtra("Acceptor");
-
-        Log.e(TAG, acc);
+        Transaction transaction = intent.getParcelableExtra("Transaction");
 
         TextView store = findViewById(R.id.store);
-        store.setText(acc);
+        store.setText(transaction.getCard_acceptor_name());
 
 
     }

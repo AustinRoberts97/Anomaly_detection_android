@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Message;
+import android.os.Parcelable;
 import android.util.JsonReader;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -43,9 +44,13 @@ public class Cloud {
     private static final String BASE_URL = "http://django-env.zqqwi3vey2.us-east-1.elasticbeanstalk.com";
     private static final String API_URL = "/api";
     private static final String TRANSACTION_URL = "/transactions/?account=";
-    private static final String ACCOUNT_NUMBER="3243617280";
+    private static final String ACCOUNT_NUMBER="1322516559";
+    private static final String PROFILES_URL="/profiles/?username=";
+    private static final String USERNAME_URL="admin";
+    //http://django-env.zqqwi3vey2.us-east-1.elasticbeanstalk.com/api/transactions/?account=3243617280
 
     private static class Item {
+        public String id ="";
         public String amount = "";
         public String acceptor = "";
         public String state = "";
@@ -68,10 +73,10 @@ public class Cloud {
 
                 @Override
                 public void run() {
-                    ArrayList<Item> newItems = get_transactions();
+                    ArrayList<Transaction> newItems = get_transactions();
                     if(newItems != null) {
 
-                        items = newItems;
+                        transactions = newItems;
 
                         view.post(new Runnable() {
 
@@ -100,16 +105,17 @@ public class Cloud {
          * The items we display in the list box. Initially this is
          * null until we get items from the server.
          */
-        private ArrayList<Item> items = new ArrayList<Item>();
+        private ArrayList<Transaction> transactions = new ArrayList<Transaction>();
 
 
-    public ArrayList<Item> get_transactions() {
+
+    public ArrayList<Transaction> get_transactions() {
         // create a get query
         String query = BASE_URL + API_URL + TRANSACTION_URL+ ACCOUNT_NUMBER;
         String data = "";
         String dataParsed = "";
         String singleParsed = "";
-        ArrayList<Item> transactions = new ArrayList<Item>();
+        ArrayList<Transaction> transactions = new ArrayList<Transaction>();
 
         try {
             URL url = new URL(query);
@@ -129,20 +135,24 @@ public class Cloud {
                 while (line != null) {
                     line = reader.readLine();
                     data = data + line;
+                    Log.d("data",data);
                 }
                 JSONArray ar = new JSONArray(data);
 
                 for (int i =0; i < ar.length(); i++) {
                     JSONObject transJson = (JSONObject) ar.get(i);
 
-                    Item item = new Item();
-                    item.acceptor = transJson.getString("card_acceptor_name");
-                    item.amount = transJson.getString("post_amount");
-                    item.state = transJson.getString("card_acceptor_state");
-                    item.success = transJson.getBoolean("post_success");
-                    item.fraud_flag = transJson.getInt("fraud_flag");
-                    if(item != null && item.success && !transactions.contains(item)) {
-                        transactions.add(item);
+                    //Item item = new Item();
+                    Transaction transaction = new Transaction(transJson);
+//                    item.acceptor = transJson.getString("card_acceptor_name");
+//                    item.amount = transJson.getString("post_amount");
+//                    item.state = transJson.getString("card_acceptor_state");
+//                    item.success = transJson.getBoolean("post_success");
+//                    item.fraud_flag = transJson.getInt("fraud_flag");
+//                    item.id = transJson.getString("id");
+                    if(transaction != null && transaction.isPost_success() && !transactions.contains(transaction)) {
+                        transactions.add(transaction);
+
                     }
 
                 }
@@ -163,12 +173,12 @@ public class Cloud {
 
         @Override
         public int getCount() {
-            return items.size();
+            return transactions.size();
         }
 
         @Override
         public Object getItem(int i) {
-            return items.get(i);
+            return transactions.get(i);
         }
 
         @Override
@@ -183,24 +193,24 @@ public class Cloud {
             }
 
             TextView tv = (TextView)view.findViewById(R.id.acceptor);
-            tv.setText(items.get(i).acceptor);
-            Log.e(TAG, items.get(i).acceptor );
+            tv.setText(transactions.get(i).getCard_acceptor_name());
+            Log.e(TAG, transactions.get(i).getCard_acceptor_name() );
             TextView tv2 = (TextView)view.findViewById(R.id.amount);
-            tv2.setText(items.get(i).amount);
-            Log.e(TAG, items.get(i).amount);
+            tv2.setText(transactions.get(i).getPost_amount().toString());
+            Log.e(TAG, transactions.get(i).getPost_amount().toString());
             TextView tv3 = (TextView)view.findViewById(R.id.fraud_flag);
             tv3.setText("");
             RelativeLayout RL = (RelativeLayout) tv.getParent();
             RL.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v){
-                    String acc = items.get(i).acceptor;
+                    Transaction tran = transactions.get(i);
                     Intent intent = new Intent(v.getContext(), Individual_Trans.class);
-                    intent.putExtra("Acceptor", acc);
+                    intent.putExtra("Transaction", tran);
                     v.getContext().startActivity(intent);
                 }
             });
-            if (items.get(i).fraud_flag == 1){
+            if (transactions.get(i).getFraud_flag() == 1){
                 tv3.setText("!");
                 RL.setBackgroundColor(Color.parseColor("#BB4F4E"));
             }
@@ -208,7 +218,7 @@ public class Cloud {
                 RL.setBackgroundColor(000000);
             }
 
-            Log.e(TAG, items.get(i).fraud_flag.toString());
+            Log.e(TAG, transactions.get(i).getFraud_flag().toString());
             return view;
         }
 
