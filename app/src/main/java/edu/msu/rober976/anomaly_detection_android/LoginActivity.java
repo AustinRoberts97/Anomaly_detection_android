@@ -3,28 +3,40 @@ package edu.msu.rober976.anomaly_detection_android;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
-
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,9 +66,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     // UI references.
     private AutoCompleteTextView mUsernameView;
-
+    private static String DJANGO_URL = "http://django-env.zqqwi3vey2.us-east-1.elasticbeanstalk.com/api/profiles/?username=";
     private View mProgressView;
     private View mLoginFormView;
+    private String Account_Number;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -276,7 +289,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         private final String mUsername;
 
-
         UserLoginTask(String username) {
             mUsername = username;
 
@@ -284,24 +296,53 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
+            String query = DJANGO_URL+mUsername;
 
             try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
+                URL url = new URL(query);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                int responseCode = conn.getResponseCode();
+                if(responseCode != HttpURLConnection.HTTP_OK) {
+                    Log.e("login", "Connection Failed");
+                }
+
+                InputStream stream = conn.getInputStream();
+                try {
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+                    String data = reader.readLine();
+                    Log.d("data", data);
+                    JSONArray arracc = new JSONArray(data);
+                    JSONObject account = (JSONObject) arracc.get(0);
+                    Account_Number = account.getString("account");
+                    Log.d("account",Account_Number);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } finally{
+
+                }
+
+            }
+            catch (MalformedURLException e) {
+                Log.e(e.getMessage(), "error");
+                return false;
+            }
+            catch (IOException e) {
+                Log.e(e.getMessage(), "error");
                 return false;
             }
 
 
 
-            // TODO: register the new account here.
             return true;
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
-            finish();
+
+            Intent intent = new Intent();
+            intent.setClass(getApplicationContext(),TransactionsView.class);
+            intent.putExtra("account",Account_Number);
+            startActivity(intent);
         }
 
         @Override

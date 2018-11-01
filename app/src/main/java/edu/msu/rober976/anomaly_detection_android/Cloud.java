@@ -44,9 +44,8 @@ public class Cloud {
     private static final String BASE_URL = "http://django-env.zqqwi3vey2.us-east-1.elasticbeanstalk.com";
     private static final String API_URL = "/api";
     private static final String TRANSACTION_URL = "/transactions/?account=";
-    private static final String ACCOUNT_NUMBER="1322516559";
-    private static final String PROFILES_URL="/profiles/?username=";
-    private static final String USERNAME_URL="admin";
+    private static String ACCOUNT_NUMBER="";
+
     //http://django-env.zqqwi3vey2.us-east-1.elasticbeanstalk.com/api/transactions/?account=3243617280
 
     private static class Item {
@@ -67,7 +66,9 @@ public class Cloud {
         /**
          * Constructor
          */
-        public CatalogAdapter(final View view) {
+        public CatalogAdapter(final View view, String accnum) {
+            ACCOUNT_NUMBER = accnum;
+            Log.d("account cloud",ACCOUNT_NUMBER);
             // Create a thread to load the catalog
             new Thread(new Runnable() {
 
@@ -113,8 +114,7 @@ public class Cloud {
         // create a get query
         String query = BASE_URL + API_URL + TRANSACTION_URL+ ACCOUNT_NUMBER;
         String data = "";
-        String dataParsed = "";
-        String singleParsed = "";
+        Log.d("query",query);
         ArrayList<Transaction> transactions = new ArrayList<Transaction>();
 
         try {
@@ -142,14 +142,9 @@ public class Cloud {
                 for (int i =0; i < ar.length(); i++) {
                     JSONObject transJson = (JSONObject) ar.get(i);
 
-                    //Item item = new Item();
+
                     Transaction transaction = new Transaction(transJson);
-//                    item.acceptor = transJson.getString("card_acceptor_name");
-//                    item.amount = transJson.getString("post_amount");
-//                    item.state = transJson.getString("card_acceptor_state");
-//                    item.success = transJson.getBoolean("post_success");
-//                    item.fraud_flag = transJson.getInt("fraud_flag");
-//                    item.id = transJson.getString("id");
+
                     if(transaction != null && transaction.isPost_success() && !transactions.contains(transaction)) {
                         transactions.add(transaction);
 
