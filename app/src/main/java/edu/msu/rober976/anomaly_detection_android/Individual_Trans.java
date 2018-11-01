@@ -18,14 +18,13 @@ public class Individual_Trans extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_individual);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
 
         Intent intent = getIntent();
         Transaction transaction = intent.getParcelableExtra("Transaction");
 
-        TextView store = findViewById(R.id.store);
-        store.setText(transaction.getCard_acceptor_name());
+        TextView Location = findViewById(R.id.amount2);
+        Location.setText("$"+String.format("%.2f",transaction.getPost_amount()));
 
 
     }

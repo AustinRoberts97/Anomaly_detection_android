@@ -196,7 +196,7 @@ public class Cloud {
             tv.setText(transactions.get(i).getCard_acceptor_name());
             Log.e(TAG, transactions.get(i).getCard_acceptor_name() );
             TextView tv2 = (TextView)view.findViewById(R.id.amount);
-            tv2.setText(transactions.get(i).getPost_amount().toString());
+            tv2.setText("$"+String.format("%.2f",transactions.get(i).getPost_amount()));
             Log.e(TAG, transactions.get(i).getPost_amount().toString());
             TextView tv3 = (TextView)view.findViewById(R.id.fraud_flag);
             tv3.setText("");
