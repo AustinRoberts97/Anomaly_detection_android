@@ -28,7 +28,7 @@ public class TransactionsView extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle b = intent.getExtras();
         String account_number = (String) b.get("account");
-        Log.d("account transview",account_number);
+        //Log.d("account transview",account_number);
         final Cloud.CatalogAdapter adapter = new Cloud.CatalogAdapter(list, account_number);
 
         list.setAdapter(adapter);

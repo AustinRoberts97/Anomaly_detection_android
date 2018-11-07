@@ -14,7 +14,7 @@ import org.json.JSONObject;
 public class Transaction implements Parcelable{
     private Integer id;
     private String processor_account;
-    private Integer our_account;
+    private String our_account;
     private Double post_amount;
     private boolean post_success;
     private Integer hold_action;
@@ -47,7 +47,7 @@ public class Transaction implements Parcelable{
         try {
             id = (Integer)json.get("id");
             processor_account = (String)json.get("processor_account");
-            our_account = (Integer)json.get("our_account");
+            our_account = json.get("our_account").toString();
             post_amount = (Double) json.get("post_amount");
             post_success = (Boolean)json.get("post_success");
             hold_action = (Integer)json.get("hold_action");
@@ -79,7 +79,7 @@ public class Transaction implements Parcelable{
         if (in.readByte() == 0) {
             our_account = null;
         } else {
-            our_account = in.readInt();
+            our_account = in.readString();
         }
         if (in.readByte() == 0) {
             post_amount = null;
@@ -148,7 +148,7 @@ public class Transaction implements Parcelable{
             dest.writeByte((byte) 0);
         } else {
             dest.writeByte((byte) 1);
-            dest.writeInt(our_account);
+            dest.writeString(our_account);
         }
         if (post_amount == null) {
             dest.writeByte((byte) 0);
@@ -244,5 +244,6 @@ public class Transaction implements Parcelable{
     public String getCard_acceptor_name(){return card_acceptor_name;}
     public Integer getId() {return id;}
     public Integer getFraud_flag() {return fraud_flag;}
+    public String getLocal_tran_date() {return local_tran_date;}
 
 }

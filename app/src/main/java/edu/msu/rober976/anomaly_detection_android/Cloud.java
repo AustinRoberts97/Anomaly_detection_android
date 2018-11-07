@@ -145,7 +145,8 @@ public class Cloud {
 
                     Transaction transaction = new Transaction(transJson);
 
-                    if(transaction != null && transaction.isPost_success() && !transactions.contains(transaction)) {
+                    //if(transaction != null && transaction.isPost_success() && !transactions.contains(transaction)) {
+                    if(transaction != null && !transactions.contains(transaction)) {
                         transactions.add(transaction);
 
                     }

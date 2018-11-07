@@ -23,8 +23,12 @@ public class Individual_Trans extends AppCompatActivity {
         Intent intent = getIntent();
         Transaction transaction = intent.getParcelableExtra("Transaction");
 
-        TextView Location = findViewById(R.id.amount2);
-        Location.setText("$"+String.format("%.2f",transaction.getPost_amount()));
+        TextView amountView = findViewById(R.id.amount2);
+        amountView.setText("$"+String.format("%.2f",transaction.getPost_amount()));
+
+        TextView postDateView = findViewById(R.id.postdate2);
+        postDateView.setText(transaction.getLocal_tran_date());
+
 
 
     }
