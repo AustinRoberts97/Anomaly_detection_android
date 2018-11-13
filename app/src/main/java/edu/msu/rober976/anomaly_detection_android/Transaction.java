@@ -245,5 +245,6 @@ public class Transaction implements Parcelable{
     public Integer getId() {return id;}
     public Integer getFraud_flag() {return fraud_flag;}
     public String getLocal_tran_date() {return local_tran_date;}
+    public String getProcessor_account() {return processor_account;}
 
 }

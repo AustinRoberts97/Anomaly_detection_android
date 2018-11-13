@@ -260,7 +260,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
 
     }
-
+    //not used
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
@@ -341,6 +341,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             Intent intent = new Intent();
             intent.setClass(getApplicationContext(),TransactionsView.class);
             intent.putExtra("account",Account_Number);
+            intent.putExtra("card",0);
             startActivity(intent);
         }
 

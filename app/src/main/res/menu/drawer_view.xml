@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/card0"
+
+            android:title="Credit Card"
+            android:visible="true"/>
+        <item
+            android:id="@+id/card1"
+
+            android:title="Debit Card"
+            android:visible="true"/>
+
+    </group>
+</menu>

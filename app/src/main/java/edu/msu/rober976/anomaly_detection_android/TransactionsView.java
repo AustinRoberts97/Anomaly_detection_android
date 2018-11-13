@@ -13,23 +13,33 @@ import android.widget.TextView;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import android.support.v4.widget.DrawerLayout;
+import android.support.design.widget.NavigationView;
 
 /**
  * Created by rober on 9/28/2018.
  */
 
 public class TransactionsView extends AppCompatActivity {
+    private DrawerLayout mDrawerLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.transactions_layout);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+
 
         ListView list = (ListView) findViewById(R.id.listTransactions);
         Intent intent = getIntent();
         Bundle b = intent.getExtras();
+
         String account_number = (String) b.get("account");
+        Integer card_number = (Integer) b.get("card");
         //Log.d("account transview",account_number);
-        final Cloud.CatalogAdapter adapter = new Cloud.CatalogAdapter(list, account_number);
+
+
+        final Cloud.CatalogAdapter adapter = new Cloud.CatalogAdapter(list, account_number, card_number);
 
         list.setAdapter(adapter);
         LocalDate date = null;
@@ -44,4 +54,6 @@ public class TransactionsView extends AppCompatActivity {
         TimeBox.setText("TRANSACTION HISTORY as of " +time.toString()+ " on "+date.toString());
 
     }
+
+
 }

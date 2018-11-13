@@ -7,11 +7,15 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Message;
 import android.os.Parcelable;
+import android.support.design.widget.NavigationView;
 import android.util.JsonReader;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ActionMenuView;
 import android.widget.BaseAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -45,7 +49,6 @@ public class Cloud {
     private static final String API_URL = "/api";
     private static final String TRANSACTION_URL = "/transactions/?account=";
     private static String ACCOUNT_NUMBER="";
-
     //http://django-env.zqqwi3vey2.us-east-1.elasticbeanstalk.com/api/transactions/?account=3243617280
 
     private static class Item {
@@ -66,15 +69,16 @@ public class Cloud {
         /**
          * Constructor
          */
-        public CatalogAdapter(final View view, String accnum) {
+        public CatalogAdapter(final View view, String accnum, Integer card) {
             ACCOUNT_NUMBER = accnum;
+            final Integer CARD_NUMBER = card;
             Log.d("account cloud",ACCOUNT_NUMBER);
             // Create a thread to load the catalog
             new Thread(new Runnable() {
 
                 @Override
                 public void run() {
-                    ArrayList<Transaction> newItems = get_transactions();
+                    ArrayList<Transaction> newItems = get_transactions(CARD_NUMBER);
                     if(newItems != null) {
 
                         transactions = newItems;
@@ -109,14 +113,14 @@ public class Cloud {
         private ArrayList<Transaction> transactions = new ArrayList<Transaction>();
 
 
-
-    public ArrayList<Transaction> get_transactions() {
+    //Returns transactions
+    public ArrayList<Transaction> get_transactions(Integer CARD_NUMBER) {
         // create a get query
         String query = BASE_URL + API_URL + TRANSACTION_URL+ ACCOUNT_NUMBER;
         String data = "";
         Log.d("query",query);
         ArrayList<Transaction> transactions = new ArrayList<Transaction>();
-
+        ArrayList<String> Cards = new ArrayList<String>();
         try {
             URL url = new URL(query);
 
@@ -151,6 +155,11 @@ public class Cloud {
 
                     }
 
+                    if(!Cards.contains(transaction.getProcessor_account())) {
+                        Cards.add(transaction.getProcessor_account());
+                    }
+
+
                 }
 
             } catch (JSONException e) {
@@ -164,7 +173,19 @@ public class Cloud {
             Log.e(e.getMessage(), "error");
         }
 
-        return transactions;
+
+        //filters cards
+        ArrayList<Transaction> transactions1;
+        transactions1 = new ArrayList<Transaction>();
+        for (int i =0; i < transactions.size(); i++) {
+            if (transactions.get(i).getProcessor_account().equals(Cards.get(CARD_NUMBER))) {
+                transactions1.add(transactions.get(i));
+            }
+        }
+
+
+        return transactions1;
+
     }
 
         @Override
@@ -206,17 +227,24 @@ public class Cloud {
                     v.getContext().startActivity(intent);
                 }
             });
-            if (transactions.get(i).getFraud_flag() == 1){
+            if (transactions.get(i).getFraud_flag() == 3){
                 tv3.setText("!");
-                RL.setBackgroundColor(Color.parseColor("#BB4F4E"));
+                RL.setBackgroundColor(Color.parseColor("#DD8B8A"));
+            }
+            else if (transactions.get(i).getFraud_flag() == 1){
+                tv3.setText("");
+                RL.setBackgroundColor(Color.parseColor("#FFE4C4"));
             }
             else{
+                tv3.setText("");
                 RL.setBackgroundColor(000000);
             }
 
             Log.e(TAG, transactions.get(i).getFraud_flag().toString());
             return view;
         }
+
+
 
 
     }
