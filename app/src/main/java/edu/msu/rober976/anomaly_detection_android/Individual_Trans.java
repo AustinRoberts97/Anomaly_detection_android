@@ -29,8 +29,27 @@ public class Individual_Trans extends AppCompatActivity {
         TextView postDateView = findViewById(R.id.postdate2);
         postDateView.setText(transaction.getLocal_tran_date());
 
+        TextView cardView = findViewById(R.id.card2);
+        cardView.setText("XXXXXXXXXXXX"+transaction.getProcessor_account().substring(12));
 
-
+        TextView acceptorView = findViewById(R.id.store2);
+        acceptorView.setText(transaction.getCard_acceptor_name());
+        TextView warning1View = findViewById(R.id.warning1);
+        TextView warning2View = findViewById(R.id.warning2);
+        warning1View.setVisibility(View.INVISIBLE);
+        warning2View.setVisibility(View.INVISIBLE);
+        if (transaction.getFraud_flag() == 3){
+            warning1View.setVisibility(View.VISIBLE);
+            warning2View.setVisibility(View.VISIBLE);
+            warning1View.setText("Warnings:");
+            warning2View.setText("This payment is likely fraudulent");
+        }
+        if (transaction.getFraud_flag() == 1){
+            warning1View.setVisibility(View.VISIBLE);
+            warning2View.setVisibility(View.VISIBLE);
+            warning1View.setText("Warnings:");
+            warning2View.setText("This recurring transaction has increased");
+        }
     }
 
 }

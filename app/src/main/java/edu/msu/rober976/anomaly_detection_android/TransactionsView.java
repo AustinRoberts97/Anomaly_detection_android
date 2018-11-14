@@ -6,6 +6,8 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -21,20 +23,20 @@ import android.support.design.widget.NavigationView;
  */
 
 public class TransactionsView extends AppCompatActivity {
-    private DrawerLayout mDrawerLayout;
-
+    private NavigationView mNavView;
+    private String account_number;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.transactions_layout);
-        mDrawerLayout = findViewById(R.id.drawer_layout);
+        mNavView = findViewById(R.id.nav_view);
 
 
         ListView list = (ListView) findViewById(R.id.listTransactions);
         Intent intent = getIntent();
         Bundle b = intent.getExtras();
 
-        String account_number = (String) b.get("account");
+        account_number = (String) b.get("account");
         Integer card_number = (Integer) b.get("card");
         //Log.d("account transview",account_number);
 
@@ -53,7 +55,37 @@ public class TransactionsView extends AppCompatActivity {
         TextView TimeBox = (TextView) findViewById(R.id.TimeBox);
         TimeBox.setText("TRANSACTION HISTORY as of " +time.toString()+ " on "+date.toString());
 
+        Menu menu = mNavView.getMenu();
+        MenuItem mItem0 = menu.findItem(R.id.card0);
+        MenuItem mItem1 = menu.findItem(R.id.card1);
+
+        mItem0.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent();
+                intent.setClass(getApplicationContext(),TransactionsView.class);
+                intent.putExtra("account",account_number);
+                intent.putExtra("card",0);
+                startActivity(intent);
+                return true;
+            }
+        });
+
+        mItem1.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent();
+                intent.setClass(getApplicationContext(),TransactionsView.class);
+                intent.putExtra("account",account_number);
+                intent.putExtra("card",1);
+                startActivity(intent);
+                return true;
+            }
+        });
     }
+
 
 
 }
