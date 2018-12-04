@@ -40,7 +40,7 @@ public class TransactionsView extends AppCompatActivity {
         Integer card_number = (Integer) b.get("card");
         //Log.d("account transview",account_number);
 
-
+        //creates a new cloud cataglog adapter
         final Cloud.CatalogAdapter adapter = new Cloud.CatalogAdapter(list, account_number, card_number);
 
         list.setAdapter(adapter);
@@ -55,10 +55,12 @@ public class TransactionsView extends AppCompatActivity {
         TextView TimeBox = (TextView) findViewById(R.id.TimeBox);
         TimeBox.setText("TRANSACTION HISTORY as of " +time.toString()+ " on "+date.toString());
 
+
         Menu menu = mNavView.getMenu();
         MenuItem mItem0 = menu.findItem(R.id.card0);
         MenuItem mItem1 = menu.findItem(R.id.card1);
 
+        //sets on click listener
         mItem0.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 
             @Override
@@ -71,7 +73,7 @@ public class TransactionsView extends AppCompatActivity {
                 return true;
             }
         });
-
+        //sets menu clicking
         mItem1.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 
             @Override

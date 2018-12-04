@@ -208,7 +208,7 @@ public class Cloud {
             if(view == null) {
                 view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.catalog_item, viewGroup, false);
             }
-
+            //sets the view with values
             TextView tv = (TextView)view.findViewById(R.id.acceptor);
             tv.setText(transactions.get(i).getCard_acceptor_name());
             Log.e(TAG, transactions.get(i).getCard_acceptor_name() );

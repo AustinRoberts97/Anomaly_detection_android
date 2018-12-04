@@ -12,6 +12,10 @@ import android.widget.TextView;
 
 import static android.content.ContentValues.TAG;
 
+/**
+ * page to display individual transactions
+ */
+
 public class Individual_Trans extends AppCompatActivity {
 
     @Override
@@ -19,7 +23,7 @@ public class Individual_Trans extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_individual);
 
-
+        //sets intent to get data passed from last page
         Intent intent = getIntent();
         Transaction transaction = intent.getParcelableExtra("Transaction");
 
